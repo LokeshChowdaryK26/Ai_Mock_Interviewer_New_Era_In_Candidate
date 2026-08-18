@@ -8,20 +8,22 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import Webcam from 'react-webcam'
 function Interview({params}) {
+    const resolvedParams = React.use(params);
+    const interviewId = resolvedParams?.interviewId;
 
     const [interviewData,setInterviewData]=useState();
     const [webCamEnabled,setWebCamEnabled]=useState(false);
     useEffect(()=>{
-        console.log(params.interviewId)
+        if (!interviewId) return;
         GetInterviewDetails();
-    },[])
+    },[interviewId])
 
     /**
      * Used to Get Interview Details by MockId/Interview Id
      */
     const GetInterviewDetails=async()=>{
         const result=await db.select().from(MockInterview)
-        .where(eq(MockInterview.mockId,params.interviewId))
+        .where(eq(MockInterview.mockId,interviewId))
 
         setInterviewData(result[0]);
     }
@@ -62,7 +64,7 @@ function Interview({params}) {
 
     </div>
     <div className='flex justify-end items-end'>
-        <Link href={'/dashboard/interview/'+ params.interviewId+'/start'}>
+        <Link href={'/dashboard/interview/'+ interviewId+'/start'}>
         <Button>Start Interview</Button>
         </Link>
         </div>

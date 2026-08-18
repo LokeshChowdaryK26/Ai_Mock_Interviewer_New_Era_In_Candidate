@@ -1,11 +1,5 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div>
-      <h2>Welcome to Mock Interview</h2>
-      <Button> All the best</Button>
-    </div>
-  );
+  redirect("/dashboard");
 }

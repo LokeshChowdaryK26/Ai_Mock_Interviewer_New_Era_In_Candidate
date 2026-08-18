@@ -9,15 +9,17 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 function StartInterview({params}) {
- 
+    const resolvedParams = React.use(params);
+    const interviewId = resolvedParams?.interviewId;
 
     const [interviewData,setInterviewData]=useState();
     const [MockInterviewQuestion,setMockInterviewQuestion]=useState();
     const [activeQuestionIndex,setActiveQuestionIndex]=useState(0);
     useEffect(()=>{
+        if (!interviewId) return;
         GetInterviewDetails();
 
-    },[]);
+    },[interviewId]);
 
      /**
      * Used to Get Interview Details by MockId/Interview Id
@@ -25,7 +27,7 @@ function StartInterview({params}) {
      
      const GetInterviewDetails=async()=>{
         const result=await db.select().from(MockInterview)
-        .where(eq(MockInterview.mockId,params.interviewId))
+        .where(eq(MockInterview.mockId,interviewId))
         
         
 

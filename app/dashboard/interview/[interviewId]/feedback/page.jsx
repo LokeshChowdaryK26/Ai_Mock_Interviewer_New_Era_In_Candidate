@@ -10,16 +10,19 @@ import { useRouter } from 'next/navigation'
 
 
 function Feedback({params}) {
+    const resolvedParams = React.use(params);
+    const interviewId = resolvedParams?.interviewId;
     const [feedbackList,setFeedbackList]=useState([]);
     const router=useRouter();
     useEffect(()=>{
+        if (!interviewId) return;
         GetFeedback();
-    },[])
+    },[interviewId])
 
     const GetFeedback=async()=>{
         const result=await db.select()
         .from(UserAnswer)
-        .where(eq(UserAnswer.mockIdRef,params.interviewId))
+        .where(eq(UserAnswer.mockIdRef,interviewId))
         .orderBy(UserAnswer.id);
         console.log(result);
         setFeedbackList(result);
